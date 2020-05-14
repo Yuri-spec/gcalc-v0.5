@@ -1,0 +1,283 @@
+<Groceries>:
+    BoxLayout:
+        orientation: 'vertical'
+        canvas:
+            Color:
+                rgba: (.1, .1, .1, 1)
+            Rectangle:
+                pos: self.pos
+                size: self.size
+
+        BoxLayout:
+            orientation: 'horizontal'
+            size_hint_y: .1
+            canvas:
+                Color:
+                    rgba: (.3, .3, .3, 1)
+                Rectangle:
+                    pos: self.pos
+                    size: self.size
+            Label:
+                text: 'Name:'
+            Label:
+                text: 'Quant:'
+            Label:
+                text: 'Value:'
+
+        ScrollView:
+            GridLayout:
+                id: rows
+                cols: 5
+                orientation: 'vertical'
+                padding: 5, 10 # x, y
+                spacing: 5
+                size_hint_y: None
+                height: self.minimum_height
+
+        BoxLayout:
+            orientation: 'horizontal'
+            size_hint_y: .1
+            canvas:
+                Color:
+                    rgba: (.22, .22, .22, 1)
+                Rectangle:
+                    pos: self.pos
+                    size: self.size
+            Button:
+                text: 'Add'
+                background_color: (1, 1.4, .85, 1)
+                on_release:
+                    root.manager.transition.direction = 'right'
+                    root.manager.current = 'add'
+            Label:
+                text: 'Total Value:'
+                text_size: self.size
+                valign: 'middle'
+                halign: 'right'
+            Label:
+                id: total_value
+                font_size: self.height - 65
+                bold: True
+
+<AddItems>:
+    entry: entry
+
+    BoxLayout:
+        orientation: 'vertical'
+        canvas:
+            Color:
+                rgba: (.1, .1, .1, 1)
+            Rectangle:
+                pos: self.pos
+                size: self.size
+
+        BoxLayout:
+            size_hint_y: .1
+            TextInput:
+                id: entry
+                font_size: self.height - 60
+                padding: [15, (self.height - self.line_height) / 2]
+                hint_text: 'Add new item'
+                multiline: False
+                size_hint_x: 2
+                cursor_color: (.25, .75, 1, 1)
+            Button:
+                text: 'Submit'
+                background_color: (.25, .75, 1, 1)
+                on_release:
+                    root.btn()
+                    entry.text = ''
+
+        ScrollView:
+            GridLayout:
+                id: frequent
+                cols: 2
+                orientation: 'vertical'
+                padding: 10
+                spacing: 10
+                size_hint_y: None
+                height: self.minimum_height
+
+        BoxLayout:
+            size_hint_y: .1
+            Button:
+                text: 'Menu »'
+                background_color: (.65, .65, .65, 1)
+                on_release:
+                    entry.text = ''
+                    root.manager.transition.direction = 'left'
+                    root.manager.current = 'main'
+
+
+<Calculator>:
+    entry: entry
+
+    BoxLayout:
+        orientation: 'vertical'
+        canvas:
+            Color:
+                rgba: (.1, .1, .1, 1)
+            Rectangle:
+                pos: self.pos
+                size: self.size
+
+        BoxLayout:
+            size_hint_y: .1
+
+            Label:
+                id: selected
+                bold: True
+
+        BoxLayout:
+            orientation: 'vertical'
+            padding: 0, 6
+
+            BoxLayout:
+                padding: 15, 0 # x, y
+                TextInput:
+                    id: entry
+                    font_name: 'digital-7'
+                    font_size: self.height - 40
+                    halign: 'right'
+                    padding: [15, (self.height - self.line_height) / 2]
+                    multiline: False
+                    readonly: True
+                    hint_text_color: (0, 0, 0, 1)
+                    background_color: (163/255, 185/255, 171/255, 1)
+
+            BoxLayout:
+                orientation: 'horizontal'
+                size_hint_y: 4
+                padding: 15
+                spacing: 15
+
+                BoxLayout:
+                    spacing: 15
+                    orientation: 'vertical'
+
+                    BoxLayout:
+                        spacing: 15
+                        Button:
+                            text: '7'
+                            on_press:
+                                if len(entry.text.replace('.', '')) < 8: entry.text += self.text
+
+                        Button:
+                            text: '8'
+                            on_press:
+                                if len(entry.text.replace('.', '')) < 8: entry.text += self.text
+
+                    BoxLayout:
+                        spacing: 15
+                        Button:
+                            text: '4'
+                            on_press:
+                                if len(entry.text.replace('.', '')) < 8: entry.text += self.text
+                        Button:
+                            text: '5'
+                            on_press:
+                                if len(entry.text.replace('.', '')) < 8: entry.text += self.text
+
+                    BoxLayout:
+                        spacing: 15
+                        Button:
+                            text: '1'
+                            on_press:
+                                if len(entry.text.replace('.', '')) < 8: entry.text += self.text
+                        Button:
+                            text: '2'
+                            on_press:
+                                if len(entry.text.replace('.', '')) < 8: entry.text += self.text
+                    Button:
+                        text: '0'
+                        on_press:
+                            if entry.text and len(entry.text.replace('.', '')) < 8: entry.text += self.text
+                            if not entry.text: entry.hint_text = self.text
+
+                BoxLayout:
+                    spacing: 15
+                    orientation: 'horizontal'
+
+                    BoxLayout:
+                        spacing: 15
+                        orientation: 'vertical'
+                        Button:
+                            text: '9'
+                            on_press:
+                                if len(entry.text.replace('.', '')) < 8: entry.text += self.text
+                        Button:
+                            text: '6'
+                            on_press:
+                                if len(entry.text.replace('.', '')) < 8: entry.text += self.text
+                        Button:
+                            text: '3'
+                            on_press:
+                                if len(entry.text.replace('.', '')) < 8: entry.text += self.text
+                        Button:
+                            text: '.'
+                            on_press:
+                                if not entry.text: entry.text += '0'
+                                if self.text not in entry.text: entry.text += self.text
+
+                    BoxLayout:
+                        spacing: 15
+                        orientation: 'vertical'
+
+                        BoxLayout:
+                            spacing: 15
+                            orientation: 'vertical'
+                            Button:
+                                text: 'Clear'
+                                background_color: (.65, .65, .65, 1)
+                                on_release:
+                                    entry.hint_text = '0'
+                                    entry.text = ''
+                            Button:
+                                text: '⌫'
+                                font_name: 'DejaVuSans'
+                                background_color: (.65, .65, .65, 1)
+                                on_release:
+                                    if not entry.text: entry.text = entry.hint_text
+                                    entry.hint_text = '0'
+                                    entry.text = entry.text[:-1]
+                        Button:
+                            text: 'Enter'
+                            background_color: (.25, .75, 1, 1)
+                            on_release:
+                                if not entry.text: entry.text = entry.hint_text
+                                root.btn()
+                                root.manager.transition.direction = 'right'
+                                root.manager.current = 'main'
+
+        BoxLayout:
+            size_hint_y: .1
+
+            Button:
+                text: '« Cancel'
+                background_color: (.65, .65, .65, 1)
+                on_release:
+                    root.manager.transition.direction = 'right'
+                    root.manager.current = 'main'
+
+
+<ExitPopup>:
+    title: 'Exit:'
+    size_hint: (.95, 0.5)
+    auto_dismiss: False
+
+    BoxLayout:
+        orientation: 'vertical'
+        Label:
+            text: 'Are you sure you want to exit?'
+
+        BoxLayout:
+            orientation: 'horizontal'
+            size_hint_y: .3
+            spacing: 4
+
+            Button:
+                text: 'Yes'
+                on_release: app.stop()
+            Button:
+                text: 'No'
+                on_release: root.dismiss()
